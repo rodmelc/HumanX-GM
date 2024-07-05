@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test interface</title>
+    <style>
+        body {
+            background-color: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .video-container {
+            background-color: #333;
+            border-radius: 8px;
+            margin: 20px;
+            overflow: hidden;
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+        }
+        .video-container iframe {
+            height: 300px;
+            width: 500px;
+        }
+        .video {
+            border-radius: 8px;
+            width: 500px;
+            height: 300px;
+            overflow: hidden;
+            position: absolute;
+            margin-top: 20px;
+            margin-left: 1010px;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .progress-bar-container {
+            width: 440px;
+            height: 30px;
+            margin-top: 20px;
+            background-color: #e0e0e0;
+            border-radius: 25px;
+            padding: 3px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1) inset;
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            left: calc(50% - 220px);
+            top: 20px;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 100%;
+            background-color: #76c7c0;
+            border-radius: 25px;
+            text-align: center;
+            line-height: 30px;
+            color: black;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+        .start-button {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            color: rgb(0, 0, 0);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            z-index: 1;
+        }
+        .start-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .countdown-timer {
+            width: 440px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            color: rgb(0, 0, 0);
+            position: absolute;
+            left: calc(50% - 220px);
+            top: calc(20px + 30px + 20px);
+            visibility: hidden;
+        }
+        .table-container {
+            position: absolute;
+            width: 500px;
+            margin: 1px;
+            top: calc(20px + 300px + 20px);
+            left: 20px;
+        }
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .custom-table td {
+            width: 100px;
+            height: 90px;
+            border: 1px solid #000000;
+            text-align: center;
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+        }
+        .fullscreen-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .video-container.fullscreen iframe {
+            width: 100vw; /* Full viewport width */
+            height: 100vh; /* Full viewport height */
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container" id="video-container-1">
+        <iframe src="https://meet.jit.si/DefensiveGesturesDenounceSufficiently" allow="camera; microphone; fullscreen"></iframe>
+        <button class="fullscreen-button" onclick="toggleFullscreen('video-container-1')">Plein écran</button>
+    </div>
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+        <button class="start-button" id="start-button">Cliquez pour lancer le timer</button>
+    </div>
+    <div class="countdown-timer" id="countdown-timer"></div>
+    <div class="table-container">
+        <table class="custom-table">
+            <tbody>
+                <tr>
+                    <td><strong><h2>Equipe</h2></strong></td>
+                    <td><strong><h2>Destinataire</h2></strong></td>
+                    <td><strong><h2>Montant</h2></strong></td>
+                    <!-- Ajoutez autant de colonnes que nécessaire -->
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <!-- Ajoutez autant de colonnes que nécessaire -->
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <!-- Ajoutez autant de lignes que nécessaire -->
+            </tbody>
+        </table>
+    </div>
+    <div class="video" id="video-container-2">
+        <iframe src="https://meet.jit.si/DefensiveGesturesDenounceSufficiently" allow="camera; microphone; fullscreen"></iframe>
+        <button class="fullscreen-button" onclick="toggleFullscreen('video-container-2')">Plein écran</button>
+    </div>
+
+    <script>
+        function toggleFullscreen(containerId) {
+            const container = document.getElementById(containerId);
+            if (!document.fullscreenElement) {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.mozRequestFullScreen) { // Firefox
+                    container.mozRequestFullScreen();
+                } else if (container.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) { // IE/Edge
+                    container.msRequestFullscreen();
+                }
+                container.classList.add('fullscreen');
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+                container.classList.remove('fullscreen');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const progressBar = document.getElementById('progress-bar');
+            const progressBarContainer = document.querySelector('.progress-bar-container');
+            const countdownTimer = document.getElementById('countdown-timer');
+            const startButton = document.getElementById('start-button');
+            const maxWidth = progressBarContainer.offsetWidth - 6;
+            let currentWidth = maxWidth;
+            let remainingTime = 1.5 * 60 * 60;
+            let timerRunning = false;
+            let incrementTime = 0;
+
+            function updateProgressBar() {
+                if (currentWidth > 0 && remainingTime > 0 && timerRunning) {
+                    currentWidth -= maxWidth / (1.5 * 60 * 60);
+                    progressBar.style.width = currentWidth + 'px';
+                    
+                    remainingTime -= 1;
+
+                    const hours = Math.floor(remainingTime / 3600);
+                    const minutes = Math.floor((remainingTime % 3600) / 60);
+                    const seconds = remainingTime % 60;
+                    
+                    countdownTimer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                } else if (remainingTime === 0 && timerRunning) {
+                    countdownTimer.style.color = 'red';
+                    incrementTime++;
+                    const hours = Math.floor(incrementTime / 3600);
+                    const minutes = Math.floor((incrementTime % 3600) / 60);
+                    const seconds = incrementTime % 60;
+                    countdownTimer.textContent = `temps perdu : ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+            }
+
+            startButton.addEventListener('click', () => {
+                if (!timerRunning) {
+                    timerRunning = true;
+                    startButton.style.opacity = '0';
+                    countdownTimer.style.visibility = 'visible';
+                    setInterval(updateProgressBar, 1000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
